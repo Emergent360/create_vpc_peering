@@ -43,6 +43,7 @@
     lookup: id
     purge_subnets: false
     purge_routes: false
+    route_table_id: "{{ create_rtb.route_table.route_table_id }}"
     subnets:
       - "{{ empire_ds_subnet1_id }}"
       - "{{ empire_ds_subnet2_id }}"
