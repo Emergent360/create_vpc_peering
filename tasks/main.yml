@@ -69,7 +69,7 @@
     lookup: id
     purge_subnets: false
     purge_routes: false
-    route_table_id: "{{ default_vpc_net_facts.vpcs[0].id }}"
+    route_table_id: "{{ default_route_table_facts.route_table_id }}"
     subnets:
       - "{{ create_subnet.subnet.id }}"
     routes:
