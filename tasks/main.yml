@@ -64,7 +64,7 @@
     lookup: id
     purge_subnets: false
     purge_routes: false
-    route_table_id: "{{ default_route_table_facts.route_tables.id }}"
+    route_table_id: "{{ default_route_table_facts.route_tables[0].id }}"
     subnets:
       - "{{ create_subnet.subnet.id }}"
     routes:
