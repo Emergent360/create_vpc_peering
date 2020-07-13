@@ -25,7 +25,7 @@
   ec2_vpc_subnet_info:
     region: "{{ ec2_region }}"
     filters:
-      vpc-id: "{{ vpc_net_facts.vpcs[0].id }}"
+      vpc-id: "{{ create_vpc.vpc.id }}"
       "tag:Name": "{{ ec2_name_prefix }}-subnet"
   register: subnet_facts
 
