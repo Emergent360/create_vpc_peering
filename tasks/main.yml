@@ -11,7 +11,7 @@
   ec2_vpc_route_table_info:
     region: "{{ ec2_region }}"
     filters:
-      association.main: true
+      association.subnet-id: "{{ empire_ds_subnet1_id }}"
   register: default_route_table_facts
 
 - name: Get route table info for {{ ec2_name_prefix }}-vpc
