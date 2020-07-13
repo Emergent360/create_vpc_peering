@@ -7,6 +7,20 @@
     region: "{{ ec2_region }}"
   register: default_vpc_net_facts
 
+- name: Get route table info for default-vpc
+  ec2_vpc_route_table_info:
+    region: "{{ ec2_region }}"
+    filters:
+      vpc_id: "{{ default_vpc_net_facts.vpcs[0].id }}"
+  register: default_route_table_facts
+
+- name: Get route table info for {{ ec2_name_prefix }}-vpc
+  ec2_vpc_route_table_info:
+    region: "{{ ec2_region }}"
+    filters:
+      vpc_id: "{{ ec2_vpc_id }}"
+  register: route_table_facts
+
 - name: "Create local VPC peering connection"
   ec2_vpc_peer:
     region: "{{ ec2_region }}"
@@ -15,12 +29,25 @@
     state: present
   register: vpc_peer
 
-- debug:
-    msg: "{{ vpc_peer }}"
-
 - name: "Accept local VPC peering connection"
   ec2_vpc_peer:
     region: "{{ ec2_region }}"
     peering_id: "{{ vpc_peer.peering_id }}" 
     state: accept
   register: accept_peer
+
+- name: "Create route table entries to default-vpc"
+  ec2_vpc_route_table:
+    vpc_id: "{{ create_vpc.vpc.id }}"
+    region: "{{ ec2_region }}"
+    lookup: id
+    purge_subnets: false
+    purge_routes: false
+    subnets:
+      - "{{ empire_ds_subnet1.subnet.id }}"
+      - "{{ empire_ds_subnet2.subnet.id }}"
+    routes:
+      - dest: 172.31.0.0/20
+        vpc_peering_connection_id: "{{ vpc_peer.peering_id }}"
+      - dest: 172.31.16.0/20
+        vpc_peering_connection_id: "{{ vpc_peer.peering_id }}"
