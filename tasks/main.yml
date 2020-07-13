@@ -15,13 +15,6 @@
       association.main: true
   register: default_route_table_facts
 
-- name: Get route table info for {{ ec2_name_prefix }}-vpc
-  ec2_vpc_route_table_info:
-    region: "{{ ec2_region }}"
-    filters:
-      vpc_id: "{{ create_vpc.vpc.id }}"
-  register: route_table_facts
-
 - name: Get the subnet ID for {{ ec2_name_prefix }}-subnet
   ec2_vpc_subnet_info:
     region: "{{ ec2_region }}"
@@ -69,7 +62,7 @@
     lookup: id
     purge_subnets: false
     purge_routes: false
-    route_table_id: "{{ default_route_table_facts.route_table_id }}"
+    route_table_id: "{{ default_route_table_facts.route_table.route_table_id }}"
     subnets:
       - "{{ create_subnet.subnet.id }}"
     routes:
