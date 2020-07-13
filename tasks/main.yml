@@ -15,9 +15,12 @@
     state: present
   register: vpc_peer
 
+- debug:
+    msg: "{{ vpc_peer }}"
+
 - name: "Accept local VPC peering connection"
   ec2_vpc_peer:
     region: "{{ ec2_region }}"
-    peering_id: "{{ default_vpc_net_facts.vpcs[0].id }}" 
+    peering_id: "{{ vpc_peer.peering_id }}" 
     state: accept
   register: accept_peer
