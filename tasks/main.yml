@@ -10,8 +10,8 @@
 - name: Get route table info for default-vpc
   ec2_vpc_route_table_info:
     region: "{{ ec2_region }}"
-    vpc_id: "{{ default_vpc_net_facts.vpcs[0].id }}"
     filters:
+      vpc_id: "{{ default_vpc_net_facts.vpcs[0].id }}"
       association.main: true
   register: default_route_table_facts
 
