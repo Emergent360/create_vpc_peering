@@ -54,9 +54,6 @@
       - dest: 172.31.16.0/20
         vpc_peering_connection_id: "{{ vpc_peer.peering_id }}"
 
-- debug:
-    msg: "{{ default_route_table_facts }}"
-
 - name: "Create route table entries to {{ ec2_name_prefix }}-vpc"
   ec2_vpc_route_table:
     vpc_id: "{{ default_vpc_net_facts.vpcs[0].id }}"
