@@ -14,13 +14,22 @@
       vpc_id: "{{ default_vpc_net_facts.vpcs[0].id }}"
   register: default_route_table_facts
 
-- name: Get the subnet ID for {{ ec2_name_prefix }}-subnet
-  ec2_vpc_subnet_info:
-    region: "{{ ec2_region }}"
-    filters:
-      vpc-id: "{{ create_vpc.vpc.id }}"
-      "tag:Name": "{{ ec2_name_prefix }}-subnet"
-  register: subnet_facts
+#- name: Get the subnet ID for {{ ec2_name_prefix }}-subnet
+#  ec2_vpc_subnet_info:
+#    region: "{{ ec2_region }}"
+#    filters:
+#      vpc-id: "{{ create_vpc.vpc.id }}"
+#      "tag:Name": "{{ ec2_name_prefix }}-subnet"
+#  register: subnet_facts
+- name: Get subnets for AD DS domain controllers
+  command: >
+    aws ds describe-directories
+      --query 'DirectoryDescriptions[?Name==`empire.lab-emergent360.com`].{SubnetIds:VpcSettings.SubnetIds}'
+      --region "{{ ec2_region }}"
+  register: ds_subnet_ids
+
+- debug:
+    msg: "{{ ds_subnet_ids }}"
 
 - name: "Create local VPC peering connection"
   ec2_vpc_peer:
