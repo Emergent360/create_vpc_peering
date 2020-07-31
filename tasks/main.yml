@@ -31,7 +31,7 @@
   register: ds_query
 
 - debug:
-    msg: "{{ ds_query.stdout | json_query('SubnetIds') }}"
+    msg: "{{ ds_query.stdout | to_json }}"
 
 - name: "Create local VPC peering connection"
   ec2_vpc_peer:
