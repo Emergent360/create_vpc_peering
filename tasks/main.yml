@@ -31,7 +31,7 @@
   register: ds_query
 
 - debug:
-    msg: "{{ ds_query }}"
+    msg: "{{ ds_query.stdout_lines }}"
 
 - name: "Create local VPC peering connection"
   ec2_vpc_peer:
