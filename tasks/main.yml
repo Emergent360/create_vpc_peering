@@ -24,6 +24,7 @@
 - name: Get subnets for AD DS domain controllers
   command: >
     aws ds describe-directories
+      --output json
       --query 'DirectoryDescriptions[?Name==`empire.lab-emergent360.com`].{SubnetIds:VpcSettings.SubnetIds}'
       --region "{{ ec2_region }}"
   register: ds_subnet_ids
