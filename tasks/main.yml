@@ -27,10 +27,11 @@
       --output json
       --query 'DirectoryDescriptions[?Name==`empire.lab-emergent360.com`].{SubnetIds:VpcSettings.SubnetIds}'
       --region "{{ ec2_region }}"
-  register: ds_subnet_ids
+  changed_when: false
+  register: ds_query
 
 - debug:
-    msg: "{{ ds_subnet_ids }}"
+    msg: "{{ ds_query.stdout  }}"
 
 - name: "Create local VPC peering connection"
   ec2_vpc_peer:
