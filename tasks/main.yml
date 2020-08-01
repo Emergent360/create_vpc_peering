@@ -14,13 +14,6 @@
       vpc_id: "{{ default_vpc_net_facts.vpcs[0].id }}"
   register: default_route_table_facts
 
-#- name: Get the subnet ID for {{ ec2_name_prefix }}-subnet
-#  ec2_vpc_subnet_info:
-#    region: "{{ ec2_region }}"
-#    filters:
-#      vpc-id: "{{ create_vpc.vpc.id }}"
-#      "tag:Name": "{{ ec2_name_prefix }}-subnet"
-#  register: subnet_facts
 - name: Get subnets for AD DS domain controllers
   command: >
     aws ds describe-directories
@@ -30,10 +23,8 @@
   changed_when: false
   register: ds_query
 
-- debug:
-    msg: "{{ (ds_query.stdout | from_json)[0].SubnetIds }}"
-
-- set_fact:
+- name: Set subnet ids list
+  set_fact:
     empire_ds_subnets: "{{ (ds_query.stdout | from_json)[0].SubnetIds }}"
 
 - name: "Create local VPC peering connection"
