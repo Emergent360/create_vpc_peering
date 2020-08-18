@@ -59,6 +59,9 @@
       - dest: 172.31.16.0/20
         vpc_peering_connection_id: "{{ vpc_peer.peering_id }}"
 
+- debug:
+    msg: "{{ create_subnet }}"
+
 - name: "Create route table entries to {{ ec2_name_prefix }}-vpc"
   ec2_vpc_route_table:
     vpc_id: "{{ default_vpc_net_facts.vpcs[0].id }}"
@@ -68,7 +71,8 @@
     purge_routes: false
     route_table_id: "{{ default_route_table_facts.route_tables[0].id }}"
     subnets:
-      - "{{ create_subnet.subnet.id }}"
+#      - "{{ create_subnet.subnet.id }}"
+      - "{{ subnet_ids }}"
     routes:
       - dest: 172.16.0.0/16
         vpc_peering_connection_id: "{{ vpc_peer.peering_id }}"
