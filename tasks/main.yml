@@ -60,7 +60,7 @@
         vpc_peering_connection_id: "{{ vpc_peer.peering_id }}"
 
 - debug:
-    msg: "{{ create_subnet }}"
+    msg: "{{ subnet_ids }}"
 
 - name: "Create route table entries to {{ ec2_name_prefix }}-vpc"
   ec2_vpc_route_table:
