@@ -67,5 +67,6 @@
     route_table_id: "{{ default_route_table_facts.route_tables[0].id }}"
     subnets: "{{ subnet_ids }}"
     routes:
-      - dest: 172.16.0.0/16
+#      - dest: 172.16.0.0/16
+      - dest: "{{ ec2_cidr_prefix }}.{{ ec2_subnet_base }}.0.0/24"
         vpc_peering_connection_id: "{{ vpc_peer.peering_id }}"
