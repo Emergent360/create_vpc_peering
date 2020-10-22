@@ -37,10 +37,8 @@
 - name: "Create local VPC peering connection"
   ec2_vpc_peer:
     region: "{{ ec2_region }}"
-#    vpc_id: "{{ create_vpc.vpc.id }}"
-#    peer_vpc_id: "{{ default_vpc_net_facts.vpcs[0].id }}"
-    vpc_id: "{{ default_vpc_net_facts.vpcs[0].id }}"
-    peer_vpc_id: "{{ peer_vpc_net_facts.vpcs[0].id }}"
+    peer_vpc_id: "{{ default_vpc_net_facts.vpcs[0].id }}"
+    vpc_id: "{{ peer_vpc_net_facts.vpcs[0].id }}"
     state: present
   register: vpc_peer
 
