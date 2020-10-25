@@ -51,7 +51,7 @@
 
 - name: "Create route table entries to default-vpc"
   ec2_vpc_route_table:
-    vpc_id: "{{ create_vpc.vpc.id }}"
+    vpc_id: "{{ peer_vpc_net_facts.vpcs[0].id }}"
     region: "{{ ec2_region }}"
     lookup: id
     purge_subnets: false
