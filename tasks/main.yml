@@ -73,6 +73,7 @@
 
 - name: "Get subnet info for {{ ec2_name_prefix }}-vpc"
   ec2_vpc_subnet_info:
+    region: "{{ ec2_region }}"
     filters:
       vpc-id: "{{ peer_vpc_net_facts.vpcs[0].id }}"
   register: peer_subnet_info
