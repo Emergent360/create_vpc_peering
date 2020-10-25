@@ -26,7 +26,7 @@
     region: "{{ ec2_region }}"
     filters:
       vpc_id: "{{ peer_vpc_net_facts.vpcs[0].id }}"
-  register: default_route_table_facts
+  register: peer_route_table_facts
 
 - name: Get subnets for AD DS domain controllers
   command: >
@@ -63,7 +63,7 @@
     lookup: id
     purge_subnets: false
     purge_routes: false
-    route_table_id: "{{ create_rtb.route_table.route_table_id }}"
+    route_table_id: "{{ peer_route_table_facts.route_tables[0].id }}"
     subnets: "{{ empire_ds_subnets }}"
     routes:
       - dest: 172.31.0.0/20
