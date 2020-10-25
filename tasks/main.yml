@@ -83,24 +83,24 @@
 
 - name: Get subnet ids
   set_fact:
-    subnet_ids: "{{ peer_subnet_info
-      | selectattr('subnets.id', 'defined')
-      | map(attribute='subnets.id')
+    subnet_ids: "{{ peer_subnet_info.subnets
+      | selectattr('id', 'defined')
+      | map(attribute='id')
       | list
       | unique }}"
 
 - debug:
     msg: "{{ subnet_ids }}"
 
-- name: "Create route table entries to {{ ec2_name_prefix }}-vpc"
-  ec2_vpc_route_table:
-    vpc_id: "{{ default_vpc_net_facts.vpcs[0].id }}"
-    region: "{{ ec2_region }}"
-    lookup: id
-    purge_subnets: false
-    purge_routes: false
-    route_table_id: "{{ default_route_table_facts.route_tables[0].id }}"
-    subnets: "{{ subnet_ids }}"
-    routes:
-      - dest: "{{ ec2_cidr_prefix }}.{{ ec2_subnet_base[ec2_name_prefix] }}.0/24"
-        vpc_peering_connection_id: "{{ vpc_peer.peering_id }}"
+#- name: "Create route table entries to {{ ec2_name_prefix }}-vpc"
+#  ec2_vpc_route_table:
+    #vpc_id: "{{ default_vpc_net_facts.vpcs[0].id }}"
+#    region: "{{ ec2_region }}"
+#    lookup: id
+#    purge_subnets: false
+#    purge_routes: false
+    #route_table_id: "{{ default_route_table_facts.route_tables[0].id }}"
+#    subnets: "{{ subnet_ids }}"
+#    routes:
+      #- dest: "{{ ec2_cidr_prefix }}.{{ ec2_subnet_base[ec2_name_prefix] }}.0/24"
+        #vpc_peering_connection_id: "{{ vpc_peer.peering_id }}"
