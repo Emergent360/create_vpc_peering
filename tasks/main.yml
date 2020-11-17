@@ -78,9 +78,6 @@
       vpc-id: "{{ peer_vpc_net_facts.vpcs[0].id }}"
   register: peer_subnet_info
 
-- debug:
-    msg: "{{ peer_subnet_info }}"
-
 - name: Get subnet ids
   set_fact:
     subnet_ids: "{{ peer_subnet_info.subnets
@@ -89,9 +86,6 @@
       | list
       | unique }}"
 
-- debug:
-    msg: "{{ subnet_ids }}"
-
 - name: Get subnet cidrs
   set_fact:
     subnet_cidrs: "{{ peer_subnet_info.subnets
@@ -99,10 +93,6 @@
       | map(attribute='cidr_block')
       | list
       | unique }}"
-
-- debug:
-    msg: "{{ subnet_cidrs }}"
-
 
 - name: "Create route table entries to {{ ec2_name_prefix }}-vpc"
   ec2_vpc_route_table:
