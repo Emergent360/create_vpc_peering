@@ -32,7 +32,7 @@
 
 - name: Get {{ ec2_name_prefix }} route table id
   set_fact:
-    rtb_id: "{{ peer_route_table_facts.route_tables | json_query(query_string) }}"
+    rtb_id: "{{ peer_route_table_facts.route_tables | json_query(query_string) | first }}"
   vars:
     query_string: "[?tags.Name=='{{ ec2_name_prefix }}-RouteTable'].id"
 
