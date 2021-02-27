@@ -68,11 +68,13 @@
   ec2_vpc_route_table:
     vpc_id: "{{ peer_vpc_net_facts.vpcs[0].id }}"
     region: "{{ ec2_region }}"
-    lookup: id
+    lookup: tag
+    tags:
+      Name: "{{ ec2_name_prefix }}-RouteTable"
     purge_subnets: false
     purge_routes: false
-    route_table_id: "{{ rtb_id }}"
-    subnets: "{{ empire_ds_subnets }}"
+#    route_table_id: "{{ rtb_id }}"
+#    subnets: "{{ empire_ds_subnets }}"
     routes:
       - dest: 172.31.0.0/20
         vpc_peering_connection_id: "{{ vpc_peer.peering_id }}"
